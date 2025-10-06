@@ -106,6 +106,8 @@ The generated Markdown report includes:
   - List of warnings (up to 20 shown)
     - Same details as errors
 
+See [example_report.md](example_report.md) for a complete example report.
+
 Example output:
 
 ```markdown
@@ -134,6 +136,38 @@ Generated on: 2024-10-06 12:30:45
 
 - Python 3.6 or higher
 - requests library (see requirements.txt)
+
+## Troubleshooting
+
+### Authentication Issues
+
+If you encounter authentication errors:
+- Verify your API token is correct and has not expired
+- Ensure the token has the necessary permissions to read projects and issues
+- Check that you're using the token correctly (not the username/password)
+
+### Connection Issues
+
+If you can't connect to SonarQube:
+- Verify the SONARQUBE_URL is correct and accessible
+- Check if there's a firewall or proxy blocking the connection
+- Ensure your SonarQube server is running and accessible
+
+### No Projects Found
+
+If no projects are returned:
+- Verify your token has permission to view projects
+- Check that projects exist on your SonarQube server
+- Try accessing the projects through the SonarQube web interface with the same token
+
+## API Documentation
+
+This script uses the following SonarQube Web API endpoints:
+- `/api/projects/search` - List all projects
+- `/api/project_analyses/search` - Get project analysis history
+- `/api/issues/search` - Search for issues in projects
+
+For more information, see the [SonarQube Web API documentation](https://docs.sonarqube.org/latest/extend/web-api/).
 
 ## License
 
