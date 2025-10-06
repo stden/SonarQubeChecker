@@ -4,9 +4,10 @@ Tests for SonarQubeClient API interactions.
 Uses mocking to avoid real API calls.
 """
 
-import sys
 import os
-from unittest.mock import Mock, patch, MagicMock
+import sys
+from unittest.mock import Mock, patch
+
 import pytest
 import requests
 

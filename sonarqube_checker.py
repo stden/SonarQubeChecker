@@ -11,10 +11,12 @@ import os
 import re
 import sys
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
+
 import requests
-from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
+from requests.auth import HTTPBasicAuth
+
 from i18n import get_translation
 
 

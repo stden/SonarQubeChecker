@@ -2,17 +2,17 @@
 
 # pylint: disable=missing-function-docstring, not-callable
 
-from pathlib import Path
 import sys
+from pathlib import Path
 
-from behave import given, when, then
+from behave import given, then, when
 
 # Ensure the project root is on sys.path so we can import the application module.
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from sonarqube_checker import MarkdownReportGenerator  # pylint: disable=wrong-import-position
+from sonarqube_checker import MarkdownReportGenerator  # noqa: E402
 
 
 @given('the analysis date "{raw_date}"')

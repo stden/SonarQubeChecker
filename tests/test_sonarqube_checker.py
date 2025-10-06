@@ -4,9 +4,8 @@ Test script for SonarQube Checker functionality.
 This tests the core functions without requiring a live SonarQube instance.
 """
 
-import sys
 import os
-import pytest
+import sys
 
 # Add the parent directory to the path to import sonarqube_checker
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
