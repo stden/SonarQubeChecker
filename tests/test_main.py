@@ -123,7 +123,7 @@ def test_main_handles_file_write_error(monkeypatch, tmp_path):
     [
         ('--url', 'Error: --url is required'),
         ('--token', 'Error: --token is required'),
-        ('--projects', 'Error: --projects is required'),
+        ('--projects', 'Error: Either --projects or --project-pattern is required'),
     ],
 )
 def test_main_missing_required_arguments(monkeypatch, missing_flag, expected_message):
