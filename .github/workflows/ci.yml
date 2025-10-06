@@ -1,0 +1,172 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: 🔍 Lint Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+
+    - name: 📦 Install dependencies with uv
+      run: uv sync --extra dev
+
+    - name: 🔍 Run ruff linter
+      run: |
+        source .venv/bin/activate
+        ruff check --output-format=github .
+      continue-on-error: true
+
+    - name: ✨ Run ruff formatter check
+      run: |
+        source .venv/bin/activate
+        ruff format --check .
+      continue-on-error: true
+
+    - name: 🔎 Run mypy type checker
+      run: |
+        source .venv/bin/activate
+        mypy sonarqube_checker.py --ignore-missing-imports
+      continue-on-error: true
+
+  test:
+    name: 🧪 Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+
+    - name: 📦 Install dependencies with uv
+      run: uv sync --extra dev
+
+    - name: 🧪 Run unit tests
+      run: |
+        source .venv/bin/activate
+        pytest tests/ -v
+
+    - name: 🚀 Run demo script
+      run: |
+        source .venv/bin/activate
+        python demo.py
+
+  integration:
+    name: 🔗 Integration Tests
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+
+    - name: 📦 Install dependencies with uv
+      run: uv sync
+
+    - name: ❓ Test CLI argument parsing (help)
+      run: |
+        source .venv/bin/activate
+        python sonarqube_checker.py --help
+
+    - name: ❌ Test CLI error handling (missing arguments)
+      run: |
+        source .venv/bin/activate
+        python sonarqube_checker.py 2>&1 | grep -q "Error:" || exit 1
+
+    - name: ✅ Verify script is executable
+      run: |
+        source .venv/bin/activate
+        chmod +x sonarqube_checker.py
+        ./sonarqube_checker.py --help
+
+  code-quality:
+    name: 📊 Code Quality Report
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+
+    - name: Install code quality tools with uv
+      run: |
+        uv venv
+        source .venv/bin/activate
+        uv pip install radon bandit safety
+
+    - name: Check code complexity with radon
+      run: |
+        source .venv/bin/activate
+        radon cc sonarqube_checker.py -a -nb
+      continue-on-error: true
+
+    - name: Check for security issues with bandit
+      run: |
+        source .venv/bin/activate
+        bandit -r sonarqube_checker.py -f json -o bandit-report.json || true
+        bandit -r sonarqube_checker.py
+      continue-on-error: true
+
+    - name: Check dependency vulnerabilities with safety
+      run: |
+        source .venv/bin/activate
+        uv pip install -r requirements.txt
+        safety check --json || true
+      continue-on-error: true
+
+    - name: Upload bandit report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: bandit-security-report
+        path: bandit-report.json
+        retention-days: 30
