@@ -1,0 +1,47 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for better analysis
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+
+    - name: 📦 Install dependencies with uv
+      run: uv sync --extra dev
+
+    - name: 🧪 Run tests with coverage
+      run: |
+        source .venv/bin/activate
+        pytest tests/ --cov=sonarqube_checker --cov=i18n --cov-report=xml:coverage.xml
+      continue-on-error: true
+
+    - name: ☁️ SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=stden_SonarQubeChecker
+          -Dsonar.organization=stden
