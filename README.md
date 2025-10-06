@@ -2,6 +2,8 @@
 
 A Python script that connects to a SonarQube server via its Web API to monitor specified projects. The script retrieves the date of the last analysis for each project, fetches the latest open issues (errors and warnings), and generates a Markdown-formatted report.
 
+**Quick Start**: See [QUICKSTART.md](QUICKSTART.md) for a quick getting-started guide.
+
 ## Features
 
 - **API Connectivity**: Uses the `requests` library for HTTP requests
