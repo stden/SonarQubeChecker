@@ -3,16 +3,16 @@
 Tests for i18n (internationalization) module.
 """
 
-import sys
-import os
 import importlib
+import os
+import sys
 
 import pytest
 
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from i18n import get_translation, get_all_translations, TRANSLATIONS
+from i18n import TRANSLATIONS, get_all_translations, get_translation
 
 
 class TestI18n:
@@ -98,8 +98,9 @@ class TestI18n:
 
     def test_load_translations_fallback(self, monkeypatch):
         """Reloading the module with a missing file should use built-in defaults."""
-        import i18n as i18n_module
         import builtins
+
+        import i18n as i18n_module
 
         # Save original open
         original_open = builtins.open

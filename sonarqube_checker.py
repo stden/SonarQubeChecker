@@ -8,12 +8,15 @@ and fetches the latest open issues, then generates a Markdown report.
 
 import argparse
 import os
+import re
 import sys
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
+
 import requests
-from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
+from requests.auth import HTTPBasicAuth
+
 from i18n import get_translation
 
 
@@ -63,6 +66,54 @@ class SonarQubeClient:
         except requests.exceptions.RequestException as e:
             print(f"Error fetching analysis date for {project_key}: {e}", file=sys.stderr)
             return None
+
+    def get_projects(self, pattern: Optional[str] = None) -> List[str]:
+        """
+        Fetch list of projects from SonarQube, optionally filtered by RegExp pattern.
+
+        Args:
+            pattern: Optional RegExp pattern to filter project keys (e.g., "MyProject\\.")
+
+        Returns:
+            List of project keys matching the pattern
+        """
+        endpoint = f"{self.base_url}/api/projects/search"
+        all_projects = []
+        page = 1
+        page_size = 100
+
+        try:
+            while True:
+                params = {'ps': page_size, 'p': page}
+                response = self.session.get(endpoint, params=params, timeout=30)
+                response.raise_for_status()
+                data = response.json()
+
+                components = data.get('components', [])
+                if not components:
+                    break
+
+                all_projects.extend([comp['key'] for comp in components])
+
+                # Check if there are more pages
+                paging = data.get('paging', {})
+                if page * page_size >= paging.get('total', 0):
+                    break
+                page += 1
+
+            # Filter by pattern if provided
+            if pattern:
+                regex = re.compile(pattern)
+                filtered_projects = [proj for proj in all_projects if regex.match(proj)]
+                print(f"Found {len(filtered_projects)} projects matching pattern '{pattern}'", file=sys.stderr)
+                return filtered_projects
+
+            print(f"Found {len(all_projects)} total projects", file=sys.stderr)
+            return all_projects
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching projects: {e}", file=sys.stderr)
+            return []
 
     def get_latest_issues(self, project_key: str, max_issues: int = 10) -> List[Dict]:
         """
@@ -251,7 +302,18 @@ Examples:
         default=os.getenv('SONARQUBE_PROJECTS'),
         help=(
             'Comma-separated list of project keys (e.g., project1,project2). '
-            'Can be set via SONARQUBE_PROJECTS environment variable.'
+            'Can be set via SONARQUBE_PROJECTS environment variable. '
+            'If not specified, projects will be auto-discovered using --project-pattern.'
+        ),
+    )
+
+    parser.add_argument(
+        '--project-pattern',
+        default=os.getenv('SONARQUBE_PROJECT_PATTERN'),
+        help=(
+            'RegExp pattern to auto-discover projects (e.g., "MyProject\\."). '
+            'Can be set via SONARQUBE_PROJECT_PATTERN environment variable. '
+            'Used only if --projects is not specified.'
         ),
     )
 
@@ -297,18 +359,31 @@ Examples:
         )
         sys.exit(1)
 
-    if not args.projects:
+    # Initialize SonarQube client
+    client = SonarQubeClient(args.url, args.token)
+
+    # Determine project keys
+    if args.projects:
+        # Parse project keys from argument
+        project_keys = [key.strip() for key in args.projects.split(',')]
+    elif args.project_pattern:
+        # Auto-discover projects using RegExp pattern
+        print(f"Auto-discovering projects matching pattern: {args.project_pattern}", file=sys.stderr)
+        project_keys = client.get_projects(pattern=args.project_pattern)
+
+        if not project_keys:
+            print(
+                f"Error: No projects found matching pattern '{args.project_pattern}'",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+    else:
         print(
-            "Error: --projects is required (or set SONARQUBE_PROJECTS environment variable)",
+            "Error: Either --projects or --project-pattern is required "
+            "(or set SONARQUBE_PROJECTS or SONARQUBE_PROJECT_PATTERN environment variable)",
             file=sys.stderr,
         )
         sys.exit(1)
-
-    # Parse project keys
-    project_keys = [key.strip() for key in args.projects.split(',')]
-
-    # Initialize SonarQube client
-    client = SonarQubeClient(args.url, args.token)
 
     # Fetch data for each project
     projects_data = []
