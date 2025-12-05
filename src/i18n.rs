@@ -46,14 +46,14 @@ impl Language {
     }
 }
 
-pub fn get_translation(key: &str, language: &Language) -> &str {
+pub fn get_translation(key: &str, language: &Language) -> String {
     let translations = match language {
         Language::En => &TRANSLATIONS.en,
         Language::Ru => &TRANSLATIONS.ru,
     };
     
     translations.get(key)
-        .map(|s| s.as_str())
-        .or_else(|| TRANSLATIONS.en.get(key).map(|s| s.as_str()))
-        .unwrap_or(key)
+        .or_else(|| TRANSLATIONS.en.get(key))
+        .map(|s| s.clone())
+        .unwrap_or_else(|| key.to_string())
 }

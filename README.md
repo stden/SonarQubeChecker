@@ -1,9 +1,9 @@
 # SonarQubeChecker
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stden_SonarQubeChecker&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=stden_SonarQubeChecker)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=stden_SonarQubeChecker&metric=bugs)](https://sonarcloud.io/summary/new_code?id=stden_SonarQubeChecker)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=stden_SonarQubeChecker&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=stden_SonarQubeChecker)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=stden_SonarQubeChecker&metric=coverage)](https://sonarcloud.io/summary/new_code?id=stden_SonarQubeChecker)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=example_project&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=example_project)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=example_project&metric=bugs)](https://sonarcloud.io/summary/new_code?id=example_project)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=example_project&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=example_project)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=example_project&metric=coverage)](https://sonarcloud.io/summary/new_code?id=example_project)
 
 🐍 Python CLI tool to fetch SonarQube analysis data and issues, generating Markdown reports. Supports bilingual reports 🇬🇧 English / 🇷🇺 Russian.
 

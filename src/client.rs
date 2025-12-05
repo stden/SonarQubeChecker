@@ -27,7 +27,7 @@ pub struct Issue {
     pub line: Option<i32>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct IssueData {
     pub severity: String,
     pub message: String,
@@ -43,7 +43,8 @@ pub struct SonarQubeClient {
 impl SonarQubeClient {
     pub fn new(base_url: String, api_token: String) -> Result<Self> {
         let mut headers = HeaderMap::new();
-        let auth_value = base64::encode(format!("{}:", api_token));
+        use base64::Engine;
+        let auth_value = base64::engine::general_purpose::STANDARD.encode(format!("{}:", api_token));
         headers.insert(
             AUTHORIZATION,
             HeaderValue::from_str(&format!("Basic {}", auth_value))?,

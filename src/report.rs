@@ -21,7 +21,7 @@ impl MarkdownReportGenerator {
 
     pub fn format_analysis_date(&self, date_str: Option<&str>) -> String {
         match date_str {
-            None => get_translation("no_analysis_available", &self.language).to_string(),
+            None => get_translation("no_analysis_available", &self.language),
             Some(date) => {
                 match DateTime::parse_from_rfc3339(date) {
                     Ok(dt) => dt.format("%Y-%m-%d %H:%M:%S UTC").to_string(),
@@ -33,7 +33,7 @@ impl MarkdownReportGenerator {
 
     pub fn generate_issues_table(&self, issues: &[IssueData]) -> String {
         if issues.is_empty() {
-            return get_translation("no_open_issues", &self.language).to_string();
+            return get_translation("no_open_issues", &self.language);
         }
 
         let severity_col = get_translation("severity", &self.language);

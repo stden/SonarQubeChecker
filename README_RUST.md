@@ -19,15 +19,15 @@ cargo test -- --nocapture
 
 ```bash
 # Run directly with cargo
-cargo run -- --url https://sonarqube.example.com --token YOUR_TOKEN --projects project1,project2
+cargo run -- --url https://sonarqube.example.com --token YOUR_TOKEN --projects example-project-1,example-project-2
 
 # Run the compiled binary
-./target/release/sonarqube_checker --url https://sonarqube.example.com --token YOUR_TOKEN --projects project1
+./target/release/sonarqube_checker --url https://sonarqube.example.com --token YOUR_TOKEN --projects example-project-1
 
 # Use environment variables
 export SONARQUBE_URL=https://sonarqube.example.com
 export SONARQUBE_TOKEN=your_token
-export SONARQUBE_PROJECTS=project1,project2
+export SONARQUBE_PROJECTS=example-project-1,example-project-2
 cargo run
 
 # Or use .env file

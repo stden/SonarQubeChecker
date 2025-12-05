@@ -271,8 +271,8 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s --url https://sonarqube.example.com --token YOUR_TOKEN --projects project1,project2
-  %(prog)s --url https://sonarqube.example.com --token YOUR_TOKEN --projects project1 --output report.md
+  %(prog)s --url https://sonarqube.example.com --token YOUR_TOKEN --projects example-project-1,example-project-2
+  %(prog)s --url https://sonarqube.example.com --token YOUR_TOKEN --projects example-project-1 --output report.md
 
   # Or use environment variables from .env file:
   %(prog)s

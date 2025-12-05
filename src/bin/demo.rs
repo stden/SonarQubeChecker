@@ -4,15 +4,15 @@ use std::collections::HashMap;
 fn main() {
     let projects = vec![
         HashMap::from([
-            ("project_key", "my-awesome-project"),
+            ("project_key", "example-project-1"),
             ("last_analysis", "2024-01-15T10:30:00Z"),
         ]),
         HashMap::from([
-            ("project_key", "another-project"),
+            ("project_key", "example-project-2"),
             ("last_analysis", "2024-01-14T15:45:00Z"),
         ]),
         HashMap::from([
-            ("project_key", "no-analysis-project"),
+            ("project_key", "example-project-3"),
             ("last_analysis", ""),
         ]),
     ];

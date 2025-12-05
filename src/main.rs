@@ -15,7 +15,7 @@ use crate::report::{MarkdownReportGenerator, ProjectData};
 #[command(
     name = "sonarqube_checker",
     about = "Fetch SonarQube project analysis data and generate a Markdown report.",
-    after_help = "Examples:\n  sonarqube_checker --url https://sonarqube.example.com --token YOUR_TOKEN --projects project1,project2\n  sonarqube_checker --url https://sonarqube.example.com --token YOUR_TOKEN --projects project1 --output report.md\n\n  # Or use environment variables from .env file:\n  sonarqube_checker"
+    after_help = "Examples:\n  sonarqube_checker --url https://sonarqube.example.com --token YOUR_TOKEN --projects example-project-1,example-project-2\n  sonarqube_checker --url https://sonarqube.example.com --token YOUR_TOKEN --projects example-project-1 --output report.md\n\n  # Or use environment variables from .env file:\n  sonarqube_checker"
 )]
 struct Args {
     #[arg(
