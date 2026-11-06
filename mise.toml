@@ -1,0 +1,3 @@
+[tools]
+python = "3.11"
+rust = "1.99.1"
