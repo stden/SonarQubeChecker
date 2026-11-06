@@ -3,7 +3,7 @@ name = "sonarqube-checker"
 version = "1.0.0"
 description = "Python CLI tool to fetch SonarQube analysis data and issues, generating Markdown reports"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
     { name = "stden", email = "stden@users.noreply.github.com" }
@@ -14,8 +14,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -23,18 +21,18 @@ classifiers = [
 ]
 
 dependencies = [
-    "requests>=2.31.0",
-    "python-dotenv>=1.0.0",
-    "pyyaml>=6.0",
+    "requests>=2.34.2",
+    "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.3",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "ruff>=0.1.0",
-    "mypy>=1.0.0",
-    "behave>=1.2.6",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.4",
+    "mypy>=2.4.1",
+    "behave>=1.3.3",
 ]
 
 [project.scripts]
@@ -63,14 +61,14 @@ addopts = [
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N"]
 ignore = ["E501"]  # Line too long (handled by formatter)
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
