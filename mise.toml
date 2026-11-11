@@ -1,6 +1,7 @@
 [tools]
 python = "3.11"
 rust = "1.99.1"
+uv = "0.13.7"
 
 [tasks.test]
 run = [
@@ -8,3 +9,15 @@ run = [
     "pip install -e '.[dev]'",
     "pytest -v --tb=short",
 ]
+
+[tasks.check]
+run = "git diff --check"
+
+[tasks."rust:check"]
+run = "cargo check"
+
+[tasks."rust:test"]
+run = "cargo test"
+
+[tasks.build]
+run = "cargo build"
