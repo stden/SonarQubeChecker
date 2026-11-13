@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv venv:*)",
+      "Bash(uv pip install:*)",
+      "Bash(source:*)",
+      "Bash(python test:*)",
+      "Bash(python:*)",
+      "Bash(git log:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git remote get-url:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh workflow:*)",
+      "Bash(gh run watch:*)",
+      "Bash(git reset:*)",
+      "Bash(cat:*)",
+      "Bash(coverage run:*)",
+      "Bash(coverage report:*)",
+      "Bash(pytest:*)",
+      "Bash(python3:*)",
+      "Bash(gh secret set:*)",
+      "Bash(gh secret:*)",
+      "Bash(xargs gh run view:*)",
+      "Bash(uv sync:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(xargs -r git branch -D)",
+      "Bash(timeout 30 git gc --aggressive --prune=all)",
+      "Bash(git rev-list:*)",
+      "Bash(git reflog:*)",
+      "Bash(git gc:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run ruff check:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

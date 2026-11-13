@@ -1,0 +1,28 @@
+# Translations for SonarQube Checker reports
+# Supported languages: en (English), ru (Russian)
+
+en:
+  report_title: "📊 SonarQube Analysis Report"
+  generated: "🕒 Generated"
+  project: "📁 Project"
+  last_analysis: "📅 Last Analysis"
+  latest_issues: "🚨 Latest Issues"
+  no_analysis_available: "⚠️ No analysis available"
+  no_open_issues: "✅ No open issues found."
+  severity: "🔥 Severity"
+  message: "💬 Message"
+  component: "🧩 Component"
+  line: "📍 Line"
+
+ru:
+  report_title: "📊 Отчёт анализа SonarQube"
+  generated: "🕒 Создано"
+  project: "📁 Проект"
+  last_analysis: "📅 Последний анализ"
+  latest_issues: "🚨 Последние проблемы"
+  no_analysis_available: "⚠️ Анализ недоступен"
+  no_open_issues: "✅ Открытых проблем не найдено."
+  severity: "🔥 Важность"
+  message: "💬 Сообщение"
+  component: "🧩 Компонент"
+  line: "📍 Строка"
