@@ -1,7 +1,7 @@
 [tools]
 python = "3.11"
-rust = "1.99.1"
-uv = "0.13.7"
+rust = "1.100.0"
+uv = "0.13.9"
 
 [tasks.test]
 run = [
